@@ -4,57 +4,57 @@ import Footer from '../components/Footer';
 import { products } from '../data/products';
 
 export default function Home() {
-  const features = [
-    { title: "Fast Delivery", description: "Get your products in no time." },
-    { title: "Secure Payment", description: "Safe and encrypted transactions." },
-    { title: "Premium Quality", description: "Top-rated products guaranteed." },
+  const categories = [
+    { name: 'Electronics', icon: '⚡' },
+    { name: 'Fashion', icon: '👗' },
+    { name: 'Shoes', icon: '👟' },
+    { name: 'Accessories', icon: '⌚' },
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1">
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">Discover the Best Products</h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Explore our wide range of premium electronics and accessories designed for your lifestyle.
-            </p>
-            <Link
-              to="/products"
-              className="bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition"
-            >
-              Shop Now
-            </Link>
-          </div>
-          <div className="flex-1">
-            <img src="https://placehold.co/600x400" alt="Hero" className="rounded-lg shadow-lg" />
+      <section className="relative py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="bg-primary/10 rounded-[2.5rem] p-12 md:p-20 flex flex-col md:flex-row items-center gap-12 overflow-hidden relative">
+            <div className="flex-1 space-y-6 z-10">
+              <span className="text-primary font-bold tracking-widest uppercase text-sm">New Arrivals</span>
+              <h1 className="text-6xl md:text-7xl font-extrabold text-black leading-tight">Elevate Your Lifestyle.</h1>
+              <p className="text-xl text-gray-600 max-w-lg">Discover premium products designed for modern living. Quality and style, delivered to your door.</p>
+              <div className="flex gap-4">
+                <Link to="/products" className="bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 rounded-xl px-6 py-3 font-semibold shadow-md transition-all duration-300">Shop Now</Link>
+                <Link to="/products" className="bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl px-6 py-3 font-semibold transition-all duration-300">Explore</Link>
+              </div>
+            </div>
+            <div className="flex-1 z-10">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1000" alt="Hero" className="rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500" />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Products */}
+      {/* Category Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Featured Products</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Browse by Category</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {categories.map(cat => (
+                <Link key={cat.name} to="/products" className="bg-gray-50 p-8 rounded-2xl text-center hover:bg-primary/10 transition border border-gray-100">
+                    <div className="text-4xl mb-4">{cat.icon}</div>
+                    <div className="font-bold text-lg">{cat.name}</div>
+                </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
+      {/* Featured Products */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Why Choose Us</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature) => (
-              <div key={feature.title} className="bg-white p-8 rounded-lg shadow-sm border text-center">
-                <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Featured Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {products.slice(0, 4).map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>

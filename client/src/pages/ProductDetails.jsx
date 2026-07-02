@@ -40,10 +40,10 @@ export default function ProductDetails() {
           </div>
 
           <div className="flex gap-4">
-            <button className="bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition">
+            <button className="bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700 rounded-xl py-3 w-full font-semibold shadow-md transition-all duration-300">
               Add to Cart
             </button>
-            <Link to="/products" className="bg-gray-200 text-gray-800 px-8 py-3 rounded-lg hover:bg-gray-300 transition">
+            <Link to="/products" className="bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl w-full py-3 text-center font-semibold transition-all duration-300">
               Continue Shopping
             </Link>
           </div>
