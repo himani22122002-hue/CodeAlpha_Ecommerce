@@ -1,11 +1,20 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 
 export default function Products() {
+  const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
-  const [category, setCategory] = useState('All');
+  const [category, setCategory] = useState(searchParams.get('category') || 'All');
   const [sortBy, setSortBy] = useState('none');
+
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      setCategory(categoryParam);
+    }
+  }, [searchParams]);
 
   const categories = ['All', ...new Set(products.map((p) => p.category))];
 
