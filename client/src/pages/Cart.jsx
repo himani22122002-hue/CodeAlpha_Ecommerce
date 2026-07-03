@@ -34,7 +34,7 @@ export default function Cart() {
               <div className="flex-1">
                 <h3 className="font-semibold">{item.name}</h3>
                 <p className="text-sm text-gray-500">{item.category}</p>
-                <p className="font-bold text-orange-600">${item.price.toFixed(2)}</p>
+                <p className="font-bold text-orange-600">₹{item.price.toLocaleString('en-IN')}</p>
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => decreaseQuantity(item.id)} className="px-2 py-1 bg-gray-100 rounded-md">-</button>
@@ -42,7 +42,7 @@ export default function Cart() {
                 <button onClick={() => increaseQuantity(item.id)} className="px-2 py-1 bg-gray-100 rounded-md">+</button>
               </div>
               <div className="text-right">
-                <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                <p className="font-bold">₹{(item.price * item.quantity).toLocaleString('en-IN')}</p>
                 <button onClick={() => removeFromCart(item.id)} className="text-red-500 text-sm hover:underline">Remove</button>
               </div>
             </div>
@@ -58,20 +58,23 @@ export default function Cart() {
             </div>
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span className="font-semibold">${totalPrice.toFixed(2)}</span>
+              <span className="font-semibold">₹{totalPrice.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between">
               <span>Delivery Charge</span>
-              <span className="font-semibold">${deliveryCharge.toFixed(2)}</span>
+              <span className="font-semibold">₹{deliveryCharge.toLocaleString('en-IN')}</span>
             </div>
             <div className="border-t pt-2 flex justify-between text-lg font-bold">
               <span>Grand Total</span>
-              <span className="text-orange-600">${grandTotal.toFixed(2)}</span>
+              <span className="text-orange-600">₹{grandTotal.toLocaleString('en-IN')}</span>
             </div>
           </div>
-          <button className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
+          <Link 
+            to="/checkout"
+            className="w-full block text-center bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors"
+          >
             Checkout
-          </button>
+          </Link>
         </div>
       </div>
     </div>

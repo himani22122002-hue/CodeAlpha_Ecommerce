@@ -35,7 +35,7 @@ export default function ProductDetails() {
         <div>
           <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
           <p className="text-gray-500 mb-4">{product.category}</p>
-          <p className="text-2xl font-semibold text-purple-600 mb-6">${product.price.toFixed(2)}</p>
+          <p className="text-2xl font-semibold text-purple-600 mb-6">₹{product.price.toLocaleString('en-IN')}</p>
           <p className="text-gray-700 mb-8">{product.description}</p>
           
           <div className="flex items-center gap-4 mb-8">

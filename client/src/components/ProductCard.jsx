@@ -20,8 +20,8 @@ export default function ProductCard({ product }) {
       </div>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-baseline gap-2">
-            <span className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</span>
-            <span className="text-xs text-gray-400 line-through">${(product.price * 1.2).toFixed(2)}</span>
+            <span className="text-lg font-bold text-gray-900">₹{product.price.toLocaleString('en-IN')}</span>
+            <span className="text-xs text-gray-400 line-through">₹{product.oldPrice.toLocaleString('en-IN')}</span>
         </div>
       </div>
       <div className="flex gap-2">
