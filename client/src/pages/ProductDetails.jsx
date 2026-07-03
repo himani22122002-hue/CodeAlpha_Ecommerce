@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { products } from '../data/products';
+import { useCart } from '../context/CartContext';
 
 export default function ProductDetails() {
   const { id } = useParams();
   const product = products.find((p) => p.id === parseInt(id));
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   if (!product) {
     return (
@@ -20,6 +22,9 @@ export default function ProductDetails() {
 
   const handleIncrement = () => setQuantity((prev) => prev + 1);
   const handleDecrement = () => setQuantity((prev) => Math.max(1, prev - 1));
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -40,7 +45,9 @@ export default function ProductDetails() {
           </div>
 
           <div className="flex gap-4">
-            <button className="bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700 rounded-xl py-3 w-full font-semibold shadow-md transition-all duration-300">
+            <button 
+              onClick={handleAddToCart}
+              className="bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700 rounded-xl py-3 w-full font-semibold shadow-md transition-all duration-300">
               Add to Cart
             </button>
             <Link to="/products" className="bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl w-full py-3 text-center font-semibold transition-all duration-300">

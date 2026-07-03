@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 export default function ProductCard({ product }) {
+  const { addToCart } = useCart();
+
   return (
     <div className="group bg-white rounded-2xl p-4 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
       <div className="relative overflow-hidden rounded-xl mb-4">
@@ -23,7 +26,12 @@ export default function ProductCard({ product }) {
       </div>
       <div className="flex gap-2">
         <Link to={`/products/${product.id}`} className="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl py-3 text-sm font-semibold transition-all duration-300">View</Link>
-        <button className="flex-1 bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700 rounded-xl py-3 w-full font-semibold shadow-md transition-all duration-300">Add to Cart</button>
+        <button 
+            onClick={() => addToCart(product)}
+            className="flex-1 bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700 rounded-xl py-3 w-full font-semibold shadow-md transition-all duration-300"
+        >
+            Add to Cart
+        </button>
       </div>
     </div>
   );
