@@ -1,18 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const product = products.find((p) => p.id === parseInt(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
 
-  if (!product) {
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("http://localhost:5000/api/products");
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const products = await response.json();
+        const foundProduct = products.find((p) => p._id === id);
+        if (!foundProduct) {
+          setError("Product not found");
+        } else {
+          setProduct(foundProduct);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return <div className="max-w-7xl mx-auto px-4 py-16 text-center">Loading product...</div>;
+  }
+
+  if (error || !product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-3xl font-bold mb-4">Product Not Found</h2>
+        <h2 className="text-3xl font-bold mb-4">{error || "Product Not Found"}</h2>
         <Link to="/products" className="text-purple-600 hover:underline">
           Return to Products
         </Link>

@@ -1,9 +1,30 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import Footer from '../components/Footer';
-import { products } from '../data/products';
 
 export default function Home() {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("http://localhost:5000/api/products");
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setFeaturedProducts(data.slice(0, 4));
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeaturedProducts();
+  }, []);
+
   const categories = [
     { name: 'Electronics', icon: '⚡' },
     { name: 'Fashion', icon: '👗' },
@@ -52,11 +73,17 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Featured Products</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {loading ? (
+            <p className="text-center text-gray-500 py-12">Loading featured products...</p>
+          ) : error ? (
+            <p className="text-center text-red-500 py-12">Error loading products.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

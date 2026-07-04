@@ -6,35 +6,42 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (!email || !password) {
-      alert("Please fill in all fields.");
+      setError("Please fill in all fields.");
       return;
     }
 
-    const registeredUser = JSON.parse(localStorage.getItem("registeredUser"));
+    setLoading(true);
 
-    if (!registeredUser) {
-      alert("No account found. Please register first.");
-      navigate("/register");
-      return;
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    if (
-      registeredUser.email !== email ||
-      registeredUser.password !== password
-    ) {
-      alert("Invalid email or password.");
-      return;
-    }
-
-    localStorage.setItem("currentUser", JSON.stringify(registeredUser));
-
-    alert("Login Successful!");
-    navigate("/");
   };
 
   return (
@@ -64,6 +71,7 @@ export default function Login() {
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <input
             type="email"
             placeholder="Email"
@@ -82,9 +90,12 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-semibold hover:opacity-90 transition"
+            disabled={loading}
+            className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-semibold hover:opacity-90 transition ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Login
+            {loading ? "Loading..." : "Login"}
           </button>
 
           <button

@@ -1,8 +1,16 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
 export default function Navbar() {
   const { cart } = useCart();
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/');
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-100">
@@ -38,7 +46,15 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <Link to="/login" className="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition">Login</Link>
+            
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-semibold">Hi, {user.name}</span>
+                <button onClick={handleLogout} className="bg-gray-200 text-gray-800 px-5 py-2 rounded-full text-sm font-semibold hover:bg-gray-300 transition">Logout</button>
+              </div>
+            ) : (
+              <Link to="/login" className="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition">Login</Link>
+            )}
           </div>
         </div>
       </div>

@@ -8,36 +8,52 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
     if (!name || !email || !password || !confirmPassword) {
-      alert("Please fill in all fields.");
+      setError("Please fill in all fields.");
       return;
     }
 
     if (password.length < 6) {
-      alert("Password must be at least 6 characters.");
+      setError("Password must be at least 6 characters.");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
-    const user = {
-      name,
-      email,
-      password,
-    };
+    setLoading(true);
 
-    localStorage.setItem("registeredUser", JSON.stringify(user));
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    alert("Registration Successful! Please login.");
+      const data = await response.json();
 
-    navigate("/login");
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      setSuccess("Registration Successful! Redirecting...");
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -67,6 +83,8 @@ export default function Register() {
         </div>
 
         <form onSubmit={handleRegister} className="space-y-4">
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {success && <p className="text-green-500 text-sm text-center">{success}</p>}
           <input
             type="text"
             placeholder="Full Name"
@@ -101,9 +119,12 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-semibold hover:opacity-90 transition"
+            disabled={loading}
+            className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-semibold hover:opacity-90 transition ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Register
+            {loading ? "Loading..." : "Register"}
           </button>
 
           <p className="text-center text-gray-500 text-sm">
