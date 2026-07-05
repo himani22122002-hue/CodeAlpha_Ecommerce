@@ -1,23 +1,23 @@
-# ShopEase E-Commerce Application
+ShopEase E-Commerce Application
 
 ShopEase is a full-stack e-commerce application designed to provide a seamless shopping experience. It includes user authentication, product browsing with search/filter/sort, cart management, and a secure checkout process.
 
-## Features
+Features
 
-- **User Authentication:** Sign up and Login functionality with JWT-based protection.
-- **Product Catalog:** View products with advanced search, category filtering, and price sorting.
-- **Shopping Cart:** Add, remove, and manage items in the cart.
-- **Checkout Process:** Secure order placement with form validation.
-- **Responsive Design:** Fully responsive UI built with Tailwind CSS.
+- User Authentication: Sign up and Login functionality with JWT-based protection.
+- Product Catalog: View products with advanced search, category filtering, and price sorting.
+- Shopping Cart: Add, remove, and manage items in the cart.
+- Checkout Process: Secure order placement with form validation.
+- Responsive Design: Fully responsive UI built with Tailwind CSS.
 
-## Tech Stack
+Tech Stack
 
-- **Frontend:** React.js, React Router, Tailwind CSS, Vite
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB (via Mongoose)
-- **Authentication:** JSON Web Tokens (JWT)
+- Frontend: React.js, React Router, Tailwind CSS, Vite
+- Backend: Node.js, Express.js
+- Database: MongoDB (via Mongoose)
+- Authentication: JSON Web Tokens (JWT)
 
-## Folder Structure
+Folder Structure
 
 ```text
 ├── client/          # Frontend React application
@@ -28,7 +28,7 @@ ShopEase is a full-stack e-commerce application designed to provide a seamless s
 │   └── routes/      # API route definitions
 ```
 
-## Installation
+Installation
 
 1. Clone the repository:
    ```bash
@@ -57,7 +57,7 @@ ShopEase is a full-stack e-commerce application designed to provide a seamless s
    npm run dev
    ```
 
-## Environment Variables
+Environment Variables
 
 Create a `.env` file in the `server/` directory:
 
@@ -67,22 +67,20 @@ MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 ```
 
-## API Endpoints
+API Endpoints
 
-### Auth
+Auth
 - `POST /api/auth/register` - Create a new user
 - `POST /api/auth/login` - Authenticate user and get JWT
 
-### Products
+Products
 - `GET /api/products` - Fetch all products
 
-### Orders
+Orders
 - `POST /api/orders` - Place a new order (requires Authorization header)
 
-## Screenshots
-*(Add project screenshots here)*
 
-## Future Improvements
+Future Improvements
 
 - Add user profile management.
 - Implement payment gateway integration (e.g., Stripe/Razorpay).
